@@ -15,5 +15,13 @@
       "20",
       "21"
     ]
+  },
+  {
+    "username": "heidi",
+    "password": "readmore",
+    "favorites": [
+      "2",
+      "6"
+    ]
   }
 ]
