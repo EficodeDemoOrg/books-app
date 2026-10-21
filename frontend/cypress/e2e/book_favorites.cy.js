@@ -20,7 +20,26 @@ describe('Book Favorites App', () => {
     cy.get('input[name="password"]').type(user.password);
     cy.get('button#login').click();
     cy.contains(`Hi, ${user.username}`).should('exist');
+    cy.contains('Member').should('exist');
     cy.contains('Favorites').should('exist');
+  });
+
+  it('should display an Administrator user type after login', () => {
+    const administrator = {
+      username: `admin${Math.floor(Math.random() * 1000)}`,
+      password: `adminpass${Math.floor(Math.random() * 1000)}`,
+    };
+    cy.contains('Create Account').click();
+    cy.get('input[name="username"]').type(administrator.username);
+    cy.get('input[name="password"]').type(administrator.password);
+    cy.get('select[name="userType"]').select('Administrator');
+    cy.get('button#register').click();
+    cy.contains('Registration successful! You can now log in.').should('exist');
+    cy.wait(2000);
+    cy.get('input[name="username"]').type(administrator.username);
+    cy.get('input[name="password"]').type(administrator.password);
+    cy.get('button#login').click();
+    cy.contains(`Hi, ${administrator.username} (Administrator)`).should('exist');
   });
 
   it('should show books and allow adding to favorites', () => {

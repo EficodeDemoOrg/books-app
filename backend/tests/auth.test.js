@@ -39,6 +39,20 @@ describe('Auth API', () => {
     const res = await request(app).post('/api/login').send(testUser);
     expect(res.statusCode).toBe(200);
     expect(res.body.token).toBeDefined();
+    expect(res.body.userType).toBe('Member');
+  });
+
+  it('POST /api/login should return the assigned Administrator type', async () => {
+    const administrator = { username: 'adminuser', password: 'adminpass', userType: 'Administrator' };
+    await request(app).post('/api/register').send(administrator);
+    const res = await request(app).post('/api/login').send(administrator);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.userType).toBe('Administrator');
+  });
+
+  it('POST /api/register should reject unsupported user types', async () => {
+    const res = await request(app).post('/api/register').send({ ...testUser, userType: 'Guest' });
+    expect(res.statusCode).toBe(400);
   });
 
   it('POST /api/login should fail with wrong password', async () => {
