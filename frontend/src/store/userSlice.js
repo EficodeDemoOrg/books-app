@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   token: localStorage.getItem('token') || null,
   username: localStorage.getItem('username') || null,
+  userType: localStorage.getItem('userType') || 'Member',
 };
 
 const userSlice = createSlice({
@@ -12,14 +13,18 @@ const userSlice = createSlice({
     setUser(state, action) {
       state.token = action.payload.token;
       state.username = action.payload.username;
+      state.userType = action.payload.userType;
       localStorage.setItem('token', action.payload.token);
       localStorage.setItem('username', action.payload.username);
+      localStorage.setItem('userType', action.payload.userType);
     },
     logout(state) {
       state.token = null;
       state.username = null;
+      state.userType = 'Member';
       localStorage.removeItem('token');
       localStorage.removeItem('username');
+      localStorage.removeItem('userType');
     },
   },
 });
